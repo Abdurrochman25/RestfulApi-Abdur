@@ -30,6 +30,7 @@ func RegisterPath(e *echo.Echo, customerController *customer.Controller, userCon
 	// ------------------------------------------------------------------
 	eAuth := e.Group("")
 	eAuth.Use(middleware.JWT([]byte(constants.SECRET_JWT)))
+
 	// ------------------------------------------------------------------
 	// CRUD Customer
 	// ------------------------------------------------------------------

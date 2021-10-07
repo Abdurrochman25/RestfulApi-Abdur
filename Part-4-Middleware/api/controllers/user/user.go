@@ -29,15 +29,15 @@ func (controller *Controller) GetAllUserController(c echo.Context) error {
 
 func (controller *Controller) GetUserController(c echo.Context) error {
 	id, err := strconv.Atoi(c.Param("id"))
-
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, common.NewBadRequestResponse())
 	}
+
 	user, err := controller.userModel.Get(id)
-
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, common.NewBadRequestResponse())
 	}
+
 	response := GetUserResponse{
 		Name:  user.Name,
 		Email: user.Email,
@@ -47,7 +47,6 @@ func (controller *Controller) GetUserController(c echo.Context) error {
 
 func (controller *Controller) PostUserController(c echo.Context) error {
 	var userRequest PostUserRequest
-
 	if err := c.Bind(&userRequest); err != nil {
 		return c.JSON(http.StatusBadRequest, common.NewBadRequestResponse())
 	}
@@ -57,9 +56,7 @@ func (controller *Controller) PostUserController(c echo.Context) error {
 		Email:    userRequest.Email,
 		Password: userRequest.Password,
 	}
-
 	_, err := controller.userModel.Insert(user)
-
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, common.NewInternalServerErrorResponse())
 	}
@@ -69,7 +66,6 @@ func (controller *Controller) PostUserController(c echo.Context) error {
 
 func (controller *Controller) EditUserController(c echo.Context) error {
 	id, err := strconv.Atoi(c.Param("id"))
-
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, common.NewBadRequestResponse())
 	}
@@ -84,16 +80,15 @@ func (controller *Controller) EditUserController(c echo.Context) error {
 		Email:    userRequest.Email,
 		Password: userRequest.Password,
 	}
-
 	if _, err := controller.userModel.Edit(user, id); err != nil {
 		return c.JSON(http.StatusBadRequest, common.NewBadRequestResponse())
 	}
+
 	return c.JSON(http.StatusOK, common.NewSuccessOperationResponse())
 }
 
 func (controller *Controller) DeleteUserController(c echo.Context) error {
 	id, err := strconv.Atoi(c.Param("id"))
-
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, common.NewBadRequestResponse())
 	}
@@ -106,13 +101,11 @@ func (controller *Controller) DeleteUserController(c echo.Context) error {
 
 func (controller *Controller) LoginUserController(c echo.Context) error {
 	var userRequest LoginUserRequest
-
 	if err := c.Bind(&userRequest); err != nil {
 		return c.JSON(http.StatusBadRequest, common.NewBadRequestResponse())
 	}
 
 	user, err := controller.userModel.Login(userRequest.Email, userRequest.Password)
-
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, common.NewBadRequestResponse())
 	}

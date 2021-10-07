@@ -30,7 +30,6 @@ func (controller *Controller) GetAllCustomerController(c echo.Context) error {
 
 func (controller *Controller) GetCustomerController(c echo.Context) error {
 	id, err := strconv.Atoi(c.Param("id"))
-
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, common.NewBadRequestResponse())
 	}
@@ -44,14 +43,12 @@ func (controller *Controller) GetCustomerController(c echo.Context) error {
 		Name:  user.Name,
 		Email: user.Email,
 	}
-
 	return c.JSON(http.StatusOK, response)
 }
 
 func (controller *Controller) PostCustomerController(c echo.Context) error {
 	// bind request value
 	var customerRequest PostCustomerRequest
-
 	if err := c.Bind(&customerRequest); err != nil {
 		return c.JSON(http.StatusBadRequest, common.NewBadRequestResponse())
 	}
@@ -62,9 +59,7 @@ func (controller *Controller) PostCustomerController(c echo.Context) error {
 		Gender:   customerRequest.Gender,
 		Password: customerRequest.Password,
 	}
-
 	_, err := controller.customerModel.Insert(customer)
-
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, common.NewInternalServerErrorResponse())
 	}
@@ -74,7 +69,6 @@ func (controller *Controller) PostCustomerController(c echo.Context) error {
 
 func (controller *Controller) EditCustomerController(c echo.Context) error {
 	id, err := strconv.Atoi(c.Param("id"))
-
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, common.NewBadRequestResponse())
 	}
@@ -91,7 +85,6 @@ func (controller *Controller) EditCustomerController(c echo.Context) error {
 		Gender:   customerRequest.Gender,
 		Password: customerRequest.Password,
 	}
-
 	if _, err := controller.customerModel.Edit(customer, id); err != nil {
 		return c.JSON(http.StatusNotFound, common.NewBadRequestResponse())
 	}
@@ -101,7 +94,6 @@ func (controller *Controller) EditCustomerController(c echo.Context) error {
 
 func (controller *Controller) DeleteCustomerController(c echo.Context) error {
 	id, err := strconv.Atoi(c.Param("id"))
-
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, common.NewBadRequestResponse())
 	}
@@ -115,13 +107,11 @@ func (controller *Controller) DeleteCustomerController(c echo.Context) error {
 
 func (controller *Controller) LoginCustomerController(c echo.Context) error {
 	var customerRequest LoginCustomerRequest
-
 	if err := c.Bind(&customerRequest); err != nil {
 		return c.JSON(http.StatusBadRequest, common.NewBadRequestResponse())
 	}
 
 	customer, err := controller.customerModel.Login(customerRequest.Email, customerRequest.Password)
-
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, common.NewBadRequestResponse())
 	}

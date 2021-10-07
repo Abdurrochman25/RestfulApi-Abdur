@@ -30,7 +30,6 @@ func (controller *Controller) GetAllBookController(c echo.Context) error {
 
 func (controller *Controller) GetBookController(c echo.Context) error {
 	id, err := strconv.Atoi(c.Param("id"))
-
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, common.NewBadRequestResponse())
 	}
@@ -44,14 +43,12 @@ func (controller *Controller) GetBookController(c echo.Context) error {
 		Title:  book.Title,
 		Author: book.Author,
 	}
-
 	return c.JSON(http.StatusOK, response)
 }
 
 func (controller *Controller) PostBookController(c echo.Context) error {
 	// bind request value
 	var bookRequest PostBookRequest
-
 	if err := c.Bind(&bookRequest); err != nil {
 		return c.JSON(http.StatusBadRequest, common.NewBadRequestResponse())
 	}
@@ -60,9 +57,7 @@ func (controller *Controller) PostBookController(c echo.Context) error {
 		Title:  bookRequest.Title,
 		Author: bookRequest.Author,
 	}
-
 	_, err := controller.bookModel.Insert(book)
-
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, common.NewInternalServerErrorResponse())
 	}
@@ -72,7 +67,6 @@ func (controller *Controller) PostBookController(c echo.Context) error {
 
 func (controller *Controller) EditBookController(c echo.Context) error {
 	id, err := strconv.Atoi(c.Param("id"))
-
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, common.NewBadRequestResponse())
 	}
@@ -97,7 +91,6 @@ func (controller *Controller) EditBookController(c echo.Context) error {
 
 func (controller *Controller) DeleteBookController(c echo.Context) error {
 	id, err := strconv.Atoi(c.Param("id"))
-
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, common.NewBadRequestResponse())
 	}
